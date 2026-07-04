@@ -15,11 +15,14 @@ jobs:
       - name: Install dependencies
         run: pip install flask
 
-      - name: Build Docker image
-        run: docker build -t my-flask-app .
-
       - name: Login to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Docker image
+        run: docker build -t poojitharamesh/my-flask-app .
 
       - name: Push Docker image
         run: docker push poojitharamesh/my-flask-app
